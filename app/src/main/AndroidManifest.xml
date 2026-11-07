@@ -11,7 +11,10 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
-    <permission android:name="org.omnirom.omnijaws.READ_WEATHER" />
+    <!-- Weather includes the current city and sunrise/sunset times, so only privileged or
+         same-key apps (SystemUI, Settings) may read it. -->
+    <permission android:name="org.omnirom.omnijaws.READ_WEATHER"
+        android:protectionLevel="signature|privileged" />
     <uses-permission android:name="org.omnirom.omnijaws.READ_WEATHER" />
 
     <queries>
@@ -93,7 +96,8 @@
 
         <receiver
             android:name=".SystemReceiver"
-            android:exported="true">
+            android:exported="true"
+            android:permission="org.omnirom.omnijaws.READ_WEATHER">
             <intent-filter android:priority="0">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
